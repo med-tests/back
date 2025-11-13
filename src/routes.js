@@ -1,4 +1,8 @@
-const {getAllTests, addTest} = require('./handlers.js')
+const {
+  getAllTests,
+  addTest,
+  editTest,
+} = require('./handlers.js')
 
 
 module.exports = function (router) {
@@ -7,4 +11,7 @@ module.exports = function (router) {
 
   // Добавить анализ с результатами
   router.post('/add-test', addTest)
+
+  // Редактировать тест (в т.ч. удалить)
+  router.patch('/edit', editTest)
 }
