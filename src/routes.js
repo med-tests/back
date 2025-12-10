@@ -4,7 +4,6 @@ const {
   editTest,
 } = require('./handlers.js')
 
-
 module.exports = function (router) {
   // Получить все анализы
   router.get('/', getAllTests)
@@ -13,5 +12,5 @@ module.exports = function (router) {
   router.post('/add-test', addTest)
 
   // Редактировать тест (в т.ч. удалить)
-  router.patch('/edit', editTest)
+  router.patch('/edit/:id', editTest)
 }

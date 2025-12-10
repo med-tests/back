@@ -11,11 +11,14 @@ db.pragma('journal_mode = WAL')
 // TESTS BASE
 db.prepare(`
   CREATE TABLE IF NOT EXISTS tests (
-    code TEXT PRIMARY KEY NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     normalFrom INTEGER,
     normalTo INTEGER,
-    status INTEGER
+    status INTEGER NOT NULL DEFAULT 1,
+    isHidden INTEGER,
+    showFrom TEXT,
+    showTo TEXT
   )
 `).run()
 
@@ -23,13 +26,14 @@ db.prepare(`
 db.prepare(`
     CREATE TABLE IF NOT EXISTS results (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      test_code TEXT NOT NULL,
+      test_id INTEGER,
       value INTEGER NOT NULL,
       date TEXT NOT NULL,
       status INTEGER,
       FOREIGN KEY (test_code) REFERENCES tests(code) ON DELETE CASCADE
+      status INTEGER NOT NULL DEFAULT 1,
+      FOREIGN KEY (test_id) REFERENCES tests(id)
     )
 `).run()
-
 
 module.exports = db
