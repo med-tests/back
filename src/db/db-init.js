@@ -8,11 +8,12 @@ db.pragma('foreign_keys = ON')
 
 db.pragma('journal_mode = WAL')
 
-// TESTS BASE
+// TESTS TABLE
 db.prepare(`
   CREATE TABLE IF NOT EXISTS tests (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
+    userId INTEGER NOT NULL DEFAULT 1,
     normalFrom INTEGER,
     normalTo INTEGER,
     status INTEGER NOT NULL DEFAULT 1,
@@ -22,17 +23,27 @@ db.prepare(`
   )
 `).run()
 
-// RESULTS BASE
+// RESULTS TABLE
 db.prepare(`
     CREATE TABLE IF NOT EXISTS results (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER NOT NULL DEFAULT 1,
       test_id INTEGER,
       value INTEGER NOT NULL,
       date TEXT NOT NULL,
-      status INTEGER,
-      FOREIGN KEY (test_code) REFERENCES tests(code) ON DELETE CASCADE
       status INTEGER NOT NULL DEFAULT 1,
       FOREIGN KEY (test_id) REFERENCES tests(id)
+    )
+`).run()
+
+// USERS TABLE
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      login VARCHAR(255) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      status INTEGER NOT NULL DEFAULT 1,
+      date_create DATETIME NOT NULL
     )
 `).run()
 

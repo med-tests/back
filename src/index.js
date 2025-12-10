@@ -1,5 +1,8 @@
 const express = require('express')
 const cors = require('cors')
+const {login, register} = require('./auth/auth')
+const {checkAuth} = require('./auth/checkAuth')
+require('dotenv').config()
 const PORT = process.env.PORT || 5000
 
 const app = express()
@@ -24,7 +27,10 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.post('/login', login)
+app.post('/register', register)
 
+app.use(checkAuth)
 require('./routes.js')(app)
 
 try {

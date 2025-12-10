@@ -4,8 +4,9 @@ const { formatTestToSend } = require('./helpers')
 const moment = require('moment')
 
 function getAllTests (req, res) {
-  const tests = dbTests.getAllTests()
-  const results = dbResults.getAllResults()
+  const userId = req.user.id
+  const tests = dbTests.getAllTests(userId)
+  const results = dbResults.getAllResults(userId)
 
   const response = tests.map(test => {
     const testResults = results.filter(({ test_id }) => test_id === test.id)
@@ -16,12 +17,13 @@ function getAllTests (req, res) {
 }
 
 function addTest (req, res) {
+  const userId = req.user.id
   const { title, normalFrom, normalTo, results } = req.body
 
   results.sort((a, b) => moment(a.date) - moment(b.date))
   const showFrom = results[0]?.date || ''
   const showTo = results[results.length - 1]?.date || ''
-  const addedTestId = dbTests.addTest(title, normalFrom, normalTo, showFrom, showTo)
+  const addedTestId = dbTests.addTest(title, normalFrom, normalTo, showFrom, showTo, userId)
 
   // todo подумать, как добавить несколько строк в одном sql-запросе
   results.forEach(result => {
@@ -29,24 +31,24 @@ function addTest (req, res) {
       test_id: addedTestId,
       date: result.date,
       value: result.value,
+      userId,
     })
   })
 
-  const addedTest = dbTests.getTestById(addedTestId)
-  const addedTestResults = dbResults.getResultsByTestId(addedTestId)
+  const addedTest = dbTests.getTestById(addedTestId, userId)
+  const addedTestResults = dbResults.getResultsByTestId(addedTestId, userId)
 
   res.json(formatTestToSend(addedTest, addedTestResults))
 }
 
 function editTest (req, res) {
+  const userId = req.user.id
   const id = req.params.id
-
-  // TODO сделать ошибку, если нет id. id не может быть 0
 
   const { status } = req.body
 
   if (status === 0) {
-    dbTests.editTest(id, { status: 0 })
+    dbTests.editTest(id, userId, { status: 0 })
     return res.json({ id })
   }
 
@@ -61,28 +63,24 @@ function editTest (req, res) {
 
   const hasChangedResults = Object.hasOwn(req.body, 'results')
   if (!Object.keys(data).length && !hasChangedResults) {
-    return res.json({ error: 'Нет полей для редактирования' })
+    return res.json({ error: true, message: 'Нет полей для редактирования' })
   }
+
   if (Object.keys(data).length) {
-    dbTests.editTest(id, data)
+    dbTests.editTest(id, userId, data)
   }
 
   if (hasChangedResults) {
     req.body.results.forEach(result => {
       if (Object.hasOwn(result, 'id')) {
-        // todo говнокод
         const data = {}
-
-        if (Object.hasOwn(result, 'date')) {
-          data.date = result.date
-        }
-        if (Object.hasOwn(result, 'value')) {
-          data.value = result.value
-        }
-        if (Object.hasOwn(result, 'status')) {
-          data.status = result.status
-        }
-        dbResults.editResult(result.id, data)
+        const fields = ['date', 'value', 'status']
+        fields.forEach(field => {
+            if (Object.hasOwn(result, field)) {
+              data[field] = result[field]
+            }
+          })
+        dbResults.editResult(result.id, data, userId)
       }
       else {
         dbResults.addResult({
@@ -90,13 +88,14 @@ function editTest (req, res) {
           date: result.date,
           value: result.value,
           status: 1,
+          userId,
         })
       }
     })
   }
 
-  const addedTest = dbTests.getTestById(id)
-  const addedTestResults = dbResults.getResultsByTestId(id)
+  const addedTest = dbTests.getTestById(id, userId)
+  const addedTestResults = dbResults.getResultsByTestId(id, userId)
   return res.json(formatTestToSend(addedTest, addedTestResults))
 }
 
