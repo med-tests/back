@@ -18,12 +18,12 @@ function getAllTests (req, res) {
 
 function addTest (req, res) {
   const userId = req.user.id
-  const { title, normalFrom, normalTo, results } = req.body
+  const { title, normalFrom, normalTo, results, position } = req.body
 
   results.sort((a, b) => moment(a.date) - moment(b.date))
   const showFrom = results[0]?.date || ''
   const showTo = results[results.length - 1]?.date || ''
-  const addedTestId = dbTests.addTest(title, normalFrom, normalTo, showFrom, showTo, userId)
+  const addedTestId = dbTests.addTest(title, normalFrom, normalTo, showFrom, showTo, userId, position)
 
   // todo подумать, как добавить несколько строк в одном sql-запросе
   results.forEach(result => {
@@ -49,6 +49,12 @@ function editTest (req, res) {
 
   if (status === 0) {
     dbTests.editTest(id, userId, { status: 0 })
+    return res.json({ id })
+  }
+
+  if (Object.hasOwn(req.body, 'position')) {
+    const { newPosition, oldPosition } = req.body.position
+    dbTests.changePosition(id, userId, oldPosition, newPosition)
     return res.json({ id })
   }
 

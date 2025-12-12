@@ -15,6 +15,7 @@ module.exports = function formatTestToSend (rawTest, rewResults) {
     isHidden: rawTest.isHidden,
     showFrom,
     showTo,
+    position: rawTest.position,
     results: rewResults
       .map(result => ({
         id: result.id,

@@ -16,12 +16,16 @@ db.prepare(`
     userId INTEGER NOT NULL DEFAULT 1,
     normalFrom INTEGER,
     normalTo INTEGER,
+    position INTEGER NOT NULL,
     status INTEGER NOT NULL DEFAULT 1,
     isHidden INTEGER,
     showFrom TEXT,
-    showTo TEXT
+    showTo TEXT,
+    FOREIGN KEY (userId) REFERENCES users(id)
   )
 `).run()
+
+db.prepare(`CREATE INDEX IF NOT EXISTS idx_position_1 ON tests (position)`).run()
 
 // RESULTS TABLE
 db.prepare(`
@@ -32,7 +36,8 @@ db.prepare(`
       value INTEGER NOT NULL,
       date TEXT NOT NULL,
       status INTEGER NOT NULL DEFAULT 1,
-      FOREIGN KEY (test_id) REFERENCES tests(id)
+      FOREIGN KEY (test_id) REFERENCES tests(id),
+      FOREIGN KEY (userId) REFERENCES users(id)
     )
 `).run()
 
