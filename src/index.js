@@ -26,9 +26,10 @@ const app = express()
 // app.use(cors(corsOptions))
 
 app.use(cors())
+
 app.use(express.json())
-app.post('/login', login)
-app.post('/register', register)
+app.post('/api/login', login)
+app.post('/api/register', register)
 
 app.use(checkAuth)
 require('./routes.js')(app)

@@ -6,11 +6,11 @@ const {
 
 module.exports = function (router) {
   // Получить все анализы
-  router.get('/get-tests', getAllTests)
+  router.get('/api/get-tests', getAllTests)
 
   // Добавить анализ с результатами
-  router.post('/add-test', addTest)
+  router.post('/api/add-test', addTest)
 
   // Редактировать тест (в т.ч. удалить)
-  router.patch('/edit-test/:id', editTest)
+  router.patch('/api/edit-test/:id', editTest)
 }

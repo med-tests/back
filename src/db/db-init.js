@@ -25,7 +25,7 @@ db.prepare(`
   )
 `).run()
 
-db.prepare(`CREATE INDEX IF NOT EXISTS idx_position_1 ON tests (position)`).run()
+db.prepare('CREATE INDEX IF NOT EXISTS idx_position_1 ON tests (position)').run()
 
 // RESULTS TABLE
 db.prepare(`

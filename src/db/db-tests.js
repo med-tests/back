@@ -52,5 +52,5 @@ module.exports = {
         SET position = @newPosition
         WHERE id = @id
       `).run({ newPosition, id })
-  }
+  },
 }
