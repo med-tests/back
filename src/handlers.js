@@ -45,19 +45,6 @@ function editTest (req, res) {
   const userId = req.user.id
   const id = req.params.id
 
-  const { status } = req.body
-
-  if (status === 0) {
-    dbTests.editTest(id, userId, { status: 0 })
-    return res.json({ id })
-  }
-
-  if (Object.hasOwn(req.body, 'position')) {
-    const { newPosition, oldPosition } = req.body.position
-    dbTests.changePosition(id, userId, oldPosition, newPosition)
-    return res.json({ id })
-  }
-
   // взять только подходящие поля
   const arr = ['title', 'normalFrom', 'normalTo', 'isHidden', 'showFrom', 'showTo']
   const data = {}
@@ -105,8 +92,26 @@ function editTest (req, res) {
   return res.json(formatTestToSend(addedTest, addedTestResults))
 }
 
+function deleteTest (req, res) {
+  const userId = req.user.id
+  const id = req.params.id
+
+  dbTests.editTest(id, userId, { status: 0 })
+  return res.json({ id })
+}
+
+function changeTestPosition (req, res) {
+  const userId = req.user.id
+  const id = req.params.id
+  const { newPosition, oldPosition } = req.body
+  dbTests.changePosition(id, userId, oldPosition, newPosition)
+  return res.json({ id })
+}
+
 module.exports = {
   getAllTests,
   addTest,
   editTest,
+  deleteTest,
+  changeTestPosition,
 }

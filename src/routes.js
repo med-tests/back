@@ -2,15 +2,23 @@ const {
   getAllTests,
   addTest,
   editTest,
+  deleteTest,
+  changeTestPosition,
 } = require('./handlers.js')
 
-module.exports = function (router) {
+module.exports = function (app) {
   // Получить все анализы
-  router.get('/api/get-tests', getAllTests)
+  app.get('/api/get-tests', getAllTests)
 
   // Добавить анализ с результатами
-  router.post('/api/add-test', addTest)
+  app.post('/api/add-test', addTest)
 
-  // Редактировать тест (в т.ч. удалить)
-  router.patch('/api/edit-test/:id', editTest)
+  // Редактировать анализ
+  app.patch('/api/edit-test/:id', editTest)
+
+  // Удалить анализ
+  app.delete('/api/delete-test/:id', deleteTest)
+
+  // Изменить порядок анализов в списке
+  app.patch('/api/position/:id', changeTestPosition)
 }
