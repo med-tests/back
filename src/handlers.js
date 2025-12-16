@@ -55,6 +55,7 @@ function editTest (req, res) {
   })
 
   const hasChangedResults = Object.hasOwn(req.body, 'results')
+
   if (!Object.keys(data).length && !hasChangedResults) {
     return res.json({ error: true, message: 'Нет полей для редактирования' })
   }
@@ -89,6 +90,13 @@ function editTest (req, res) {
 
   const addedTest = dbTests.getTestById(id, userId)
   const addedTestResults = dbResults.getResultsByTestId(id, userId)
+
+  if (!addedTestResults.length) {
+    dbTests.editTest(id, userId, {
+      showFrom: '',
+      showTo: '',
+    })
+  }
   return res.json(formatTestToSend(addedTest, addedTestResults))
 }
 
