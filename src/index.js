@@ -7,23 +7,39 @@ const PORT = process.env.PORT || 5000
 
 const app = express()
 
-const whitelist = [
-  'http://127.0.0.1:8080',
-  'http://localhost:8080',
-  'http://med-tests.fvds.ru',
-  process.env.SERVER_IP,
-]
+// app.enable('trust proxy')
 
+const whitelist = [
+  'http://localhost:5173',
+  'http://med-tests.fvds.ru',
+]
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (!origin || whitelist.includes(origin)) {
       callback(null, true)
     }
   }
 }
 app.use(cors(corsOptions))
 
+
+app.use((req, res, next) => {
+  console.log('req.ip', req.ip)
+  // if (!req.headers.origin) {
+  //   const clientIp = req.ip;
+  //
+  //   console.log('clientIp', clientIp)
+    // Можно добавить дополнительную проверку IP
+    // const allowedIps = ['trusted-ip-1', 'trusted-ip-2'];
+    // if (!allowedIps.includes(clientIp)) {
+    //   return res.status(403).send('Forbidden');
+    // }
+  // }
+  next();
+})
+
 app.use(express.json())
+
 app.post('/api/login', login)
 app.post('/api/register', register)
 
