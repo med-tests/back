@@ -20,6 +20,11 @@ function addTest (req, res) {
   const userId = req.user.id
   const { title, normalFrom, normalTo, results, position } = req.body
 
+  const errorText = errorTitleLength(title)
+  if (errorText) {
+    return res.json({ error: true, message: errorText })
+  }
+
   results.sort((a, b) => moment(a.date) - moment(b.date))
   const showFrom = results[0]?.date || ''
   const showTo = results[results.length - 1]?.date || ''
@@ -53,6 +58,13 @@ function editTest (req, res) {
       data[field] = req.body[field]
     }
   })
+
+  if (Object.hasOwn(data, 'title')) {
+    const errorText = errorTitleLength(data.title)
+    if (errorText) {
+      return res.json({ error: true, message: errorText })
+    }
+  }
 
   const hasChangedResults = Object.hasOwn(req.body, 'results')
 
@@ -114,6 +126,14 @@ function changeTestPosition (req, res) {
   const { newPosition, oldPosition } = req.body
   dbTests.changePosition(id, userId, oldPosition, newPosition)
   return res.json({ id })
+}
+
+function errorTitleLength (title) {
+  const maxLength = 45
+
+  return title.length > maxLength
+   ? `Название должно быть короче ${maxLength} символов`
+   : ''
 }
 
 module.exports = {
