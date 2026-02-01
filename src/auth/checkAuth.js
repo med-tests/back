@@ -16,7 +16,7 @@ function checkAuth(req, res, next) {
         if (err) {
             return res.json({
                 message: 'Ошибка авторизации. Токен устарел.',
-                error_code: 1,
+                error_code: 2,
                 error: true,
             })
         }
@@ -24,7 +24,7 @@ function checkAuth(req, res, next) {
         req.user = dbAuth.getUserById(data.userId)
         if (!req.user) {
             return res.json({
-                error_code: 1,
+                error_code: 2,
                 message: 'Пользователь не найден',
                 error: true,
             })

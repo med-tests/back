@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 function login(req, res) {
     if (!validCredentials(req.body)) {
         return res.json({
+            error_code: 2,
             message: 'Недостаточно данных',
             error: true,
         })
@@ -14,6 +15,7 @@ function login(req, res) {
     const user = dbAuth.getUserByLogin(login)
     if (!user || !bcrypt.compareSync(password, user.password || '')) {
         return res.json({
+            error_code: 2,
             message: 'Неверный логин или пароль',
             error: true,
         })
