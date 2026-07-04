@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon --watch **/*.js",
+    "start": "node src/index.js",
+    "dev": "nodemon --watch **/*.js",
     "lint": "npx eslint src/ --fix"
   },
   "author": "",
