@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon --watch **/*.js",
-    "lint": "npx eslint src/ --fix"
+    "lint": "npx eslint src/ --fix",
+    "backup": "node src/db/do-backup.js"
   },
   "author": "",
   "license": "ISC",
