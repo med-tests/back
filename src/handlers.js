@@ -9,7 +9,7 @@ function getAllTests (req, res) {
   const results = dbResults.getAllResults(userId)
 
   const response = tests.map(test => {
-    const testResults = results.filter(({ test_id }) => test_id === test.id)
+    const testResults = results.filter(({ testId }) => testId === test.id)
     return formatTestToSend(test, testResults)
   })
 
@@ -33,7 +33,7 @@ function addTest (req, res) {
   // todo подумать, как добавить несколько строк в одном sql-запросе
   results.forEach(result => {
     dbResults.addResult({
-      test_id: addedTestId,
+      testId: addedTestId,
       date: result.date,
       value: result.value,
       userId,
@@ -90,7 +90,7 @@ function editTest (req, res) {
       }
       else {
         dbResults.addResult({
-          test_id: id,
+          testId: id,
           date: result.date,
           value: result.value,
           status: 1,
