@@ -6,7 +6,8 @@
     "start": "node src/index.js",
     "dev": "nodemon --watch **/*.js",
     "lint": "npx eslint src/ --fix",
-    "backup": "node src/db/do-backup.js"
+    "backup": "node src/db/do-backup.js",
+    "base_action": "node src/db/db-action.js"
   },
   "author": "",
   "license": "ISC",
