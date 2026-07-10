@@ -10,6 +10,7 @@ module.exports = function formatTestToSend (rawTest, rewResults) {
   return {
     id: rawTest.id,
     title: rawTest.title,
+    isShowAverage: rawTest.isShowAverage,
     normalFrom: rawTest.normalFrom,
     normalTo: rawTest.normalTo,
     isHidden: rawTest.isHidden,

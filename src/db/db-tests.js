@@ -8,10 +8,10 @@ module.exports = {
   getTestById: function (id, userId) {
     return db.prepare('SELECT * FROM tests WHERE id = ? AND userId = ?').get(id, userId)
   },
-  addTest: function (title, normalFrom, normalTo, showFrom, showTo, userId, position) {
+  addTest: function (title, isShowAverage, normalFrom, normalTo, showFrom, showTo, userId, position) {
     const result = db
-      .prepare('INSERT INTO tests (title, normalFrom, normalTo, status, isHidden, showFrom, showTo, userId, position) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
-      .run(title, normalFrom, normalTo, 1, 0, showFrom, showTo, userId, position)
+      .prepare('INSERT INTO tests (title, isShowAverage, normalFrom, normalTo, status, isHidden, showFrom, showTo, userId, position) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+      .run(title, isShowAverage, normalFrom, normalTo, 1, 0, showFrom, showTo, userId, position)
 
     return result.lastInsertRowid
   },

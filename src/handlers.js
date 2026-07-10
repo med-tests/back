@@ -18,7 +18,7 @@ function getAllTests (req, res) {
 
 function addTest (req, res) {
   const userId = req.user.id
-  const { title, normalFrom, normalTo, results, position } = req.body
+  const { title, normalFrom, normalTo, results, position, isShowAverage } = req.body
 
   const errorText = errorTitleLength(title)
   if (errorText) {
@@ -28,7 +28,7 @@ function addTest (req, res) {
   results.sort((a, b) => moment(a.date) - moment(b.date))
   const showFrom = results[0]?.date || ''
   const showTo = results[results.length - 1]?.date || ''
-  const addedTestId = dbTests.addTest(title, normalFrom, normalTo, showFrom, showTo, userId, position)
+  const addedTestId = dbTests.addTest(title, isShowAverage, normalFrom, normalTo, showFrom, showTo, userId, position)
 
   // todo подумать, как добавить несколько строк в одном sql-запросе
   results.forEach(result => {
@@ -51,7 +51,7 @@ function editTest (req, res) {
   const id = req.params.id
 
   // взять только подходящие поля
-  const arr = ['title', 'normalFrom', 'normalTo', 'isHidden', 'showFrom', 'showTo']
+  const arr = ['title', 'isShowAverage', 'normalFrom', 'normalTo', 'isHidden', 'showFrom', 'showTo']
   const data = {}
   arr.forEach(field => {
     if (Object.hasOwn(req.body, field)) {

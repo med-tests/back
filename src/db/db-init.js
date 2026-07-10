@@ -14,6 +14,7 @@ db.prepare(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     userId INTEGER NOT NULL DEFAULT 1,
+    isShowAverage INTEGER,   
     normalFrom INTEGER,
     normalTo INTEGER,
     position INTEGER NOT NULL,
