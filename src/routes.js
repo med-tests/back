@@ -4,6 +4,7 @@ const {
   editTest,
   deleteTest,
   changeTestPosition,
+  addMultiResults,
 } = require('./handlers.js')
 
 module.exports = function (app) {
@@ -21,4 +22,7 @@ module.exports = function (app) {
 
   // Изменить порядок анализов в списке
   app.patch('/api/position/:id', changeTestPosition)
+
+  // Добавить несколько результатов к нескольким показателям
+  app.post('/api/add-multi-results', addMultiResults)
 }
