@@ -8,7 +8,7 @@ module.exports = function editTest (req, res) {
   const id = req.params.id
 
   // взять только подходящие поля
-  const arr = ['title', 'normalFrom', 'normalTo', 'isHidden', 'showFrom', 'showTo']
+  const arr = ['title', 'isShowAverage', 'normalFrom', 'normalTo', 'isHidden', 'showFrom', 'showTo']
   const data = {}
   arr.forEach(field => {
     if (Object.hasOwn(req.body, field)) {

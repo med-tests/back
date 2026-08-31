@@ -14,6 +14,7 @@ db.prepare(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     userId INTEGER NOT NULL DEFAULT 1,
+    isShowAverage INTEGER,   
     normalFrom INTEGER,
     normalTo INTEGER,
     position INTEGER NOT NULL,
@@ -32,11 +33,11 @@ db.prepare(`
     CREATE TABLE IF NOT EXISTS results (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       userId INTEGER NOT NULL DEFAULT 1,
-      test_id INTEGER,
+      testId INTEGER,
       value INTEGER NOT NULL,
       date TEXT NOT NULL,
       status INTEGER NOT NULL DEFAULT 1,
-      FOREIGN KEY (test_id) REFERENCES tests(id),
+      FOREIGN KEY (testId) REFERENCES tests(id),
       FOREIGN KEY (userId) REFERENCES users(id)
     )
 `).run()

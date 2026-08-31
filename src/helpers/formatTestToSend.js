@@ -16,6 +16,7 @@ function formatTestToSend (rawTest, rawResults) {
   return {
     id: rawTest.id,
     title: rawTest.title,
+    isShowAverage: rawTest.isShowAverage,
     normalFrom: rawTest.normalFrom,
     normalTo: rawTest.normalTo,
     isHidden: rawTest.isHidden,

@@ -7,9 +7,19 @@ const PORT = process.env.PORT || 5000
 
 const app = express()
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(cors())
+const env = process.env.NODE_ENV
+
+console.log(`\nЗапуск в режиме: ${env}`)
+
+const corsOptions = {
+  methods: 'GET,PATCH,POST,DELETE',
 }
+if (env === 'development') {
+  corsOptions.origin = '*'
+} else if (env === 'production') {
+  corsOptions.origin = 'https://med-tests.fvds.ru'
+}
+app.use(cors(corsOptions))
 
 app.use(express.json())
 
@@ -21,7 +31,7 @@ require('./routes.js')(app)
 
 try {
   app.listen(PORT, () => {
-    console.log(`Server started at http://localhost:${PORT}`)
+    console.log(`Сервер запущен на http://localhost:${PORT}`)
   })
 } catch (e) {
   console.log(e)
