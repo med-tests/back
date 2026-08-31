@@ -5,7 +5,7 @@ const {
   deleteTest,
   changeTestPosition,
   addMultiResults,
-} = require('./handlers.js')
+} = require('./handlers')
 
 module.exports = function (app) {
   // Получить все анализы
