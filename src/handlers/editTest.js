@@ -47,7 +47,7 @@ module.exports = function editTest (req, res) {
       }
       else {
         dbResults.addResult({
-          test_id: id,
+          testId: id,
           date: result.date,
           value: result.value,
           status: 1,

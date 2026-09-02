@@ -7,7 +7,7 @@ module.exports = function addMultiResults (req, res) {
   req.body.forEach(({ id, results}) => {
     results.forEach(result => {
       dbResults.addResult({
-        test_id: id,
+        testId: id,
         date: result.date,
         value: result.value,
         status: 1,

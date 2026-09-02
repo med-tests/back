@@ -20,7 +20,7 @@ module.exports = function addTest (req, res) {
   // todo подумать, как добавить несколько строк в одном sql-запросе
   results.forEach(result => {
     dbResults.addResult({
-      test_id: addedTestId,
+      testId: addedTestId,
       date: result.date,
       value: result.value,
       userId,

@@ -8,7 +8,7 @@ module.exports = function getAllTests (req, res) {
   const results = dbResults.getAllResults(userId)
 
   const response = tests.map(test => {
-    const testResults = results.filter(({ test_id }) => test_id === test.id)
+    const testResults = results.filter(({ testId }) => testId === test.id)
     return formatTestToSend(test, testResults)
   })
 
