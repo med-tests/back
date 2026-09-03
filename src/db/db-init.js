@@ -20,8 +20,8 @@ db.prepare(`
     position INTEGER NOT NULL,
     status INTEGER NOT NULL DEFAULT 1,
     isHidden INTEGER,
-    showFrom TEXT,
-    showTo TEXT,
+    showFrom TEXT NOT NULL,
+    showTo TEXT NOT NULL,
     FOREIGN KEY (userId) REFERENCES users(id)
   )
 `).run()

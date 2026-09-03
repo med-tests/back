@@ -20,4 +20,14 @@ module.exports = {
       .prepare(`UPDATE results SET ${setClause} WHERE id = @id AND userId = @userId`)
       .run({ ...data, id, userId })
   },
+  getEdgeDates: function (testId, userId) {
+    return db.prepare(`
+      SELECT 
+          IF(date IS NOT NULL, MIN(date), '') AS showFrom, 
+          IF(date IS NOT NULL, MAX(date), '') AS showTo
+      FROM results 
+      WHERE testId = ? AND status = 1 AND userId = ?
+    `)
+      .get(testId, userId)
+  },
 }

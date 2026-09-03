@@ -55,16 +55,17 @@ module.exports = function editTest (req, res) {
         })
       }
     })
+
+    const edgeDates = dbResults.getEdgeDates(id, userId)
+
+    dbTests.editTest(id, userId, {
+      showFrom: edgeDates.showFrom,
+      showTo: edgeDates.showTo,
+    })
   }
 
   const addedTest = dbTests.getTestById(id, userId)
   const addedTestResults = dbResults.getResultsByTestId(id, userId)
 
-  if (!addedTestResults.length) {
-    dbTests.editTest(id, userId, {
-      showFrom: '',
-      showTo: '',
-    })
-  }
   return res.json(formatTestToSend(addedTest, addedTestResults))
 }
